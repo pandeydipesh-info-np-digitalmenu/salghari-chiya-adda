@@ -3,90 +3,189 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Salghari Chiya Adda</title>
+<title>Salghari Chiya Adda | Full Menu</title>
 
-<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com"></script>
-
-<!-- AOS Animation -->
-<link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
 body{
+    background:#000;
+    color:#fff;
     font-family: 'Poppins', sans-serif;
-    background:black;
-    color:white;
 }
 
-.card:hover img{
-    transform:scale(1.1);
+.card{
+    transition:0.3s;
 }
 
-img{
-    transition:0.4s;
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 10px 25px rgba(255,255,255,0.15);
+}
+
+.fade{
+    animation:fade 0.4s ease-in;
+}
+
+@keyframes fade{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
 }
 </style>
 
 </head>
 <body>
 
-<!-- HERO SECTION -->
-<section class="text-center py-16 bg-gradient-to-r from-purple-700 via-pink-600 to-red-500">
-    <h1 class="text-5xl font-bold">Salghari Chiya Adda</h1>
-    <p class="mt-4 text-lg">Fresh Taste • Cozy Vibes • Best Chiya Spot</p>
+<section class="text-center py-10 bg-gradient-to-r from-purple-700 via-pink-600 to-red-500">
+    <h1 class="text-4xl md:text-5xl font-bold">Salghari Chiya Adda</h1>
+    <p class="mt-3 text-lg">Complete Digital Menu</p>
 </section>
 
-<!-- MENU SECTION -->
-<section class="py-12 px-6">
-
-<h2 class="text-3xl font-bold text-center mb-10 text-yellow-400">
-Our Menu
-</h2>
-
-<div class="grid md:grid-cols-3 gap-8">
-
-<!-- ITEM 1 -->
-<div class="card bg-gray-900 rounded-2xl overflow-hidden shadow-lg" data-aos="fade-up">
-    <img src="https://images.unsplash.com/photo-1558160074-4d7d8bdf4256" class="w-full h-56 object-cover">
-    <div class="p-6">
-        <h3 class="text-xl font-semibold text-pink-400">Milk Chiya</h3>
-        <p class="mt-2 text-gray-300">Rs. 30</p>
-    </div>
+<div class="text-center my-6">
+    <input type="text" id="search" placeholder="Search item..."
+    class="px-4 py-2 w-80 max-w-full rounded-lg text-black">
 </div>
 
-<!-- ITEM 2 -->
-<div class="card bg-gray-900 rounded-2xl overflow-hidden shadow-lg" data-aos="fade-up">
-    <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c" class="w-full h-56 object-cover">
-    <div class="p-6">
-        <h3 class="text-xl font-semibold text-yellow-400">Black Coffee</h3>
-        <p class="mt-2 text-gray-300">Rs. 80</p>
-    </div>
-</div>
+<div id="buttons" class="flex flex-wrap justify-center gap-3 px-4"></div>
 
-<!-- ITEM 3 -->
-<div class="card bg-gray-900 rounded-2xl overflow-hidden shadow-lg" data-aos="fade-up">
-    <img src="https://images.unsplash.com/photo-1604908177522-402fdc8f6a05" class="w-full h-56 object-cover">
-    <div class="p-6">
-        <h3 class="text-xl font-semibold text-green-400">Veg Chowmein</h3>
-        <p class="mt-2 text-gray-300">Rs. 120</p>
-    </div>
-</div>
+<div id="menu" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6 p-6"></div>
 
-</div>
-</section>
-
-<footer class="text-center py-6 bg-gray-900 text-gray-400">
-© 2026 Salghari Chiya Adda | All Rights Reserved
-</footer>
-
-<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-AOS.init({
-    duration:1000
+
+const menuData = [
+
+{category:"Tiffinbox Special", name:"Special MoMo Platter (Chicken)", price:"430"},
+{category:"Tiffinbox Special", name:"Tornado Potato", price:"190"},
+{category:"Tiffinbox Special", name:"Hot Chicken Wings", price:"350"},
+{category:"Tiffinbox Special", name:"Kurkure MoMo (Chicken)", price:"220"},
+{category:"Tiffinbox Special", name:"Kurkure MoMo (Buff)", price:"200"},
+{category:"Tiffinbox Special", name:"Thicheko Aalu", price:"140"},
+{category:"Tiffinbox Special", name:"Corn Dog", price:"250"},
+
+{category:"Soup", name:"Hot & Sour Soup (Veg)", price:"150"},
+{category:"Soup", name:"Hot & Sour Soup (Chicken)", price:"200"},
+{category:"Soup", name:"Manchow (Veg)", price:"150"},
+{category:"Soup", name:"Manchow (Chicken)", price:"200"},
+{category:"Soup", name:"Wanton", price:"160"},
+{category:"Soup", name:"Vegetable Soup", price:"120"},
+{category:"Soup", name:"Chicken Soup", price:"160"},
+
+{category:"Chowmein", name:"Veg Chowmein", price:"140"},
+{category:"Chowmein", name:"Chicken Chowmein", price:"200"},
+{category:"Chowmein", name:"Egg Chowmein", price:"190"},
+{category:"Chowmein", name:"Mixed Chowmein", price:"260"},
+{category:"Chowmein", name:"Buff Chowmein", price:"190"},
+
+{category:"Thukpa", name:"Veg Thukpa", price:"170"},
+{category:"Thukpa", name:"Buff Thukpa", price:"210"},
+{category:"Thukpa", name:"Chicken Thukpa", price:"250"},
+{category:"Thukpa", name:"Mix Thukpa", price:"290"},
+
+{category:"Pizza", name:"Cheese Pizza", price:"400"},
+{category:"Pizza", name:"Mushroom Pizza", price:"440"},
+{category:"Pizza", name:"Chicken Pizza", price:"490"},
+{category:"Pizza", name:"Mix Pizza", price:"540"},
+{category:"Pizza", name:"Mix Veg Pizza", price:"470"},
+
+{category:"Burger", name:"Veg Burger", price:"170"},
+{category:"Burger", name:"Chicken Burger", price:"250"},
+{category:"Burger", name:"Tiffin Box Burger", price:"300"},
+
+{category:"Chilli", name:"Chips Chilli", price:"200"},
+{category:"Chilli", name:"Potato Chilli", price:"180"},
+{category:"Chilli", name:"Buff Chilli", price:"290"},
+{category:"Chilli", name:"Chicken Chilli", price:"320"},
+{category:"Chilli", name:"Chicken Sausage Chilli", price:"290"},
+{category:"Chilli", name:"Mushroom Chilli", price:"250"},
+
+{category:"Light Bites", name:"Papad", price:"60"},
+{category:"Light Bites", name:"Masala Papad", price:"90"},
+{category:"Light Bites", name:"Alu Stick", price:"110"},
+{category:"Light Bites", name:"French Fries", price:"150"},
+{category:"Light Bites", name:"Buff Sausage (2 pcs)", price:"130"},
+{category:"Light Bites", name:"Chicken Sausages (2 pcs)", price:"150"},
+
+{category:"Salad", name:"Green Salad", price:"140"},
+{category:"Salad", name:"Fruit Salad", price:"250"},
+{category:"Salad", name:"Chicken Salad", price:"290"},
+
+{category:"Khaja Set", name:"Veg Khaja Set", price:"230"},
+{category:"Khaja Set", name:"Chicken Khaja Set", price:"320"},
+{category:"Khaja Set", name:"Buff Khaja Set", price:"300"},
+
+{category:"Fried Rice", name:"Veg Fried Rice", price:"200"},
+{category:"Fried Rice", name:"Egg Fried Rice", price:"240"},
+{category:"Fried Rice", name:"Buff Fried Rice", price:"250"},
+{category:"Fried Rice", name:"Chicken Fried Rice", price:"270"},
+{category:"Fried Rice", name:"Mix Fried Rice", price:"300"},
+
+{category:"Biryani", name:"Veg Biryani", price:"300"},
+{category:"Biryani", name:"Chicken Biryani", price:"430"},
+{category:"Biryani", name:"Paneer Biryani", price:"370"},
+
+{category:"MoMo", name:"Steam Buff MoMo", price:"150"},
+{category:"MoMo", name:"Fried Buff MoMo", price:"180"},
+{category:"MoMo", name:"Steam Veg MoMo", price:"130"},
+{category:"MoMo", name:"Fried Veg MoMo", price:"150"},
+{category:"MoMo", name:"Steam Chicken MoMo", price:"160"},
+{category:"MoMo", name:"Fried Chicken MoMo", price:"190"},
+
+{category:"Drinks", name:"Virgin Mojito", price:"200"},
+{category:"Drinks", name:"Watermelon Mojito", price:"230"},
+{category:"Drinks", name:"Blue Lagoon Mojito", price:"230"},
+{category:"Drinks", name:"Espresso", price:"100"},
+{category:"Drinks", name:"Cappuccino", price:"170"},
+{category:"Drinks", name:"Milk Tea", price:"60"},
+{category:"Drinks", name:"Black Coffee", price:"50"},
+{category:"Drinks", name:"Coke / Fanta / Sprite", price:"80"},
+{category:"Drinks", name:"Mineral Water", price:"40"}
+
+];
+
+const menuContainer = document.getElementById("menu");
+const buttonsContainer = document.getElementById("buttons");
+const searchInput = document.getElementById("search");
+
+function displayMenu(items){
+    menuContainer.innerHTML="";
+    items.forEach(item=>{
+        menuContainer.innerHTML += `
+        <div class="card bg-gray-900 p-5 rounded-xl fade">
+            <h3 class="text-lg font-semibold text-yellow-400">${item.name}</h3>
+            <p class="mt-2 text-gray-300">Rs. ${item.price}</p>
+            <p class="text-sm text-pink-400 mt-1">${item.category}</p>
+        </div>`;
+    });
+}
+
+function displayButtons(){
+    const categories = ["All", ...new Set(menuData.map(item=>item.category))];
+
+    categories.forEach(category=>{
+        const btn = document.createElement("button");
+        btn.textContent = category;
+        btn.className = "px-4 py-2 bg-white text-black rounded-lg font-semibold hover:bg-yellow-400";
+        btn.onclick = ()=>{
+            if(category==="All"){
+                displayMenu(menuData);
+            }else{
+                const filtered = menuData.filter(item=>item.category===category);
+                displayMenu(filtered);
+            }
+        };
+        buttonsContainer.appendChild(btn);
+    });
+}
+
+searchInput.addEventListener("keyup", ()=>{
+    const value = searchInput.value.toLowerCase();
+    const filtered = menuData.filter(item=>item.name.toLowerCase().includes(value));
+    displayMenu(filtered);
 });
+
+displayButtons();
+displayMenu(menuData);
+
 </script>
 
 </body>
